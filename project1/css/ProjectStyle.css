@@ -8,8 +8,6 @@
 
 html {
   scroll-behavior: smooth;
-  align-items: center;
-  justify-items: center;
   background-color: var(--gray);
   font-size: 62.5%; /* 1rem = 10px */
 }
@@ -26,7 +24,9 @@ body {
   background-color: var(--paper);
   display: grid;
   min-height: 100vh;
+  width: 100%;          /* container-type: inline-size makes body's natural width 0, so set it explicitly */
   max-width: 2000px;
+  margin-inline: auto;  /* centers the page on screens wider than 2000px */
 
   --gutter: clamp(1.2rem, 2.4vw, 4rem); /* left/right spacing for article and headlines */
   --headline: 1.4em;                    /* headline size (bigger on desktop below) */
