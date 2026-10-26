@@ -211,6 +211,20 @@ footer {
   padding: 1em 0;
 }
 
+/* Mobile: the sticky nav bar covers the top of the page, so anchor links
+   (#ExtremeWeather etc.) would land underneath it. scroll-padding-top tells the
+   browser to stop that far below the top. The nav wraps onto more lines on
+   narrower screens, so the padding steps up to match. */
+@media (max-width: 767px) {
+  html { scroll-padding-top: 5.5rem; }  /* nav on 1 line */
+}
+@media (max-width: 599px) {
+  html { scroll-padding-top: 8rem; }    /* nav on 2 lines */
+}
+@media (max-width: 419px) {
+  html { scroll-padding-top: 10.5rem; } /* nav on 3 lines */
+}
+
 /* Desktop layout (768px and up).
    This block is at the END of the file so it overrides the mobile rules above.
    The sideNav's width is based on text size and it never takes extra space.
