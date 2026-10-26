@@ -6,12 +6,6 @@
   --paper: #faf0e6;
 }
 
-/* Typed custom properties: their em/ch/vh values are turned into pixels once, on body,
-   so the sideNav and the Orange News tag can share the same numbers (desktop only). */
-@property --nav-f { syntax: '<length>'; inherits: true; initial-value: 16px; } /* nav text size (grows with height) */
-@property --nav-w { syntax: '<length>'; inherits: true; initial-value: 150px; } /* sideNav column width */
-@property --toc-h { syntax: '<length>'; inherits: true; initial-value: 20px; }  /* "Table of Contents" / "Orange News" size */
-
 html {
   scroll-behavior: smooth;
   background-color: var(--gray);
@@ -215,7 +209,7 @@ footer {
   background-color: var(--gray);
   align-content: center;
   text-align: center;
-  font-size: 1em;     /* same as the article text (#article p) */
+  font-size: 0.8em;
   padding: 1em 0;
 }
 
@@ -240,20 +234,10 @@ footer {
 @media (min-width: 768px) {
   body {
     --headline: 2.1em;
-
     /* sideNav is 14em when there is room, but shrinks (down to 9.5em) as soon as the
        article and sideBoxes would get less than 54ch / 14em. Only after that do the
        article and sideBoxes start shrinking, down to their minimums. */
-    --nav-w: clamp(9.5em, calc(100vw - 54ch - 14em), 14em);
-
-    /* nav text: normal size on short screens, up to 1.35x on tall ones */
-    --nav-f: clamp(1em, 2.2vh, 1.35em);
-
-    /* title size: 1.5x the nav text, but never wider than the column can hold,
-       so "Contents:" can't clip out of a narrow sideNav */
-    --toc-h: min(calc(1.5 * var(--nav-f)), calc(0.14 * var(--nav-w)));
-
-    grid-template-columns: var(--nav-w) minmax(30ch, 3fr) minmax(10em, 1fr);
+    grid-template-columns: clamp(9.5em, calc(100vw - 54ch - 14em), 14em) minmax(30ch, 3fr) minmax(10em, 1fr);
     grid-template-rows: 80vh auto 15vh;
     grid-template-areas:
       "sideNav header  header"
@@ -266,7 +250,7 @@ footer {
     /* On tall screens the text and the spacing grow with the viewport HEIGHT so the
        title + links fill roughly the top third of the column instead of leaving dead space.
        Text grows from the normal size up to 1.35x; spacing is 4vh (never less than the original 2rem). */
-    font-size: var(--nav-f);
+    font-size: clamp(1em, 2.2vh, 1.35em);
     padding: max(1rem, 2vh) 0 0;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -286,7 +270,7 @@ footer {
     overflow: visible;
     clip-path: none;
     white-space: normal;
-    font-size: var(--toc-h);
+    font-size: 1.5em;
     text-align: left;
     margin-bottom: max(2rem, 4vh);
   }
@@ -297,8 +281,7 @@ footer {
     flex-wrap: nowrap;
     justify-content: flex-start;
     gap: 0;
-    /* 0.9x the nav text, but capped so the longest word ("Introduction") fits the column */
-    font-size: min(calc(0.9 * var(--nav-f)), calc(0.125 * var(--nav-w)));
+    font-size: 0.9em;
   }
 
   #sideNav li {
@@ -310,11 +293,6 @@ footer {
 
   #sideNav a {
     overflow-wrap: anywhere; /* long link text wraps instead of overflowing a narrow column */
-  }
-
-  /* "Orange News" tag uses the exact same size as the Table of Contents title */
-  #header div#orangeNews h2 {
-    font-size: var(--toc-h);
   }
 
   /* header fills its grid row */
