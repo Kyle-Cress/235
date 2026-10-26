@@ -42,53 +42,6 @@ body {
     "footer";
 }
 
-/* Desktop layout (768px and up):
-   sideNav is a fixed width based on text size and never takes extra space.
-   Extra width goes to the article (3 parts) and sideBoxes (1 part). */
-@media (min-width: 768px) {
-  body {
-    --headline: 1.6em;
-    grid-template-columns: 14em minmax(36ch, 3fr) minmax(12em, 1fr);
-    grid-template-rows: 80vh auto 15vh;
-    grid-template-areas:
-      "sideNav header  header"
-      "sideNav article sideBoxes"
-      "sideNav footer  footer";
-  }
-
-  /* vertical side navigation */
-  div#sideNav {
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: center;
-    gap: 0;
-    height: 100vh;
-    padding: 1em 0 0;
-    overflow-y: auto;
-  }
-
-  #sideNav h2 {
-    width: 80%;
-    margin-bottom: 1.5em;
-  }
-
-  #sideNav ul {
-    width: 80%;
-    flex-direction: column;
-    flex-wrap: nowrap;
-  }
-
-  #sideNav li {
-    margin-bottom: 1.5em;
-  }
-
-  div#header {
-    height: auto;
-    min-height: 0;
-  }
-}
-
-
 /*side navigation section*/
 /* Mobile: horizontal bar across the top */
 div#sideNav {
@@ -247,4 +200,59 @@ footer {
   text-align: center;
   font-size: 0.8em;
   padding: 1em 0;
+}
+
+/* Desktop layout (768px and up).
+   This block is at the END of the file so it overrides the mobile rules above.
+   sideNav is a fixed width based on text size and never takes extra space.
+   Extra width goes to the article (3 parts) and sideBoxes (1 part). */
+@media (min-width: 768px) {
+  body {
+    --headline: 1.6em;
+    grid-template-columns: 14em minmax(36ch, 3fr) minmax(12em, 1fr);
+    grid-template-rows: 80vh auto 15vh;
+    grid-template-areas:
+      "sideNav header  header"
+      "sideNav article sideBoxes"
+      "sideNav footer  footer";
+  }
+
+  /* vertical side navigation (same as the original layout) */
+  div#sideNav {
+    padding: 1rem 0 0;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  #sideNav h2 { /* Table of Contents */
+    font-size: 1.5em;
+    text-align: left;
+    margin-bottom: 2rem;
+    width: 80%;
+  }
+
+  #sideNav ul {
+    width: 80%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0;
+    font-size: 0.9em;
+  }
+
+  #sideNav li {
+    list-style: none;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  /* header fills its grid row */
+  div#header {
+    height: auto;
+    min-height: 0;
+  }
 }
