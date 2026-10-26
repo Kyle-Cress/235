@@ -1,0 +1,310 @@
+:root {
+  /* colors */
+  --orange: #fb542b;
+  --gray: #afb6b6;
+  --ink: #000;
+  --paper: #faf0e6;
+
+  /* Extra small (default, under 480px) sizes.
+     Every breakpoint below overrides these same variables so the text scales correctly. */
+  --fs-body: 1.6rem;
+  --fs-toc: 1.8rem;
+  --fs-nav: 1.4rem;
+  --fs-label: 1.2rem;
+  --fs-byline: 1.4rem;
+  --fs-headline: 2.2rem;
+  --gutter: 1.2rem;
+  --header-h: 18rem;
+  --nav-w: 17rem;   /* width of sideNav column (desktop only) */
+  --side-w: 16rem;  /* width of sideBoxes column (desktop only) */
+}
+
+html {
+  scroll-behavior: smooth;
+  align-items: center;
+  justify-items: center;
+  background-color: var(--gray);
+  font-size: 62.5%; /* 1rem = 10px */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  container-type: inline-size;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: var(--fs-body);
+  color: var(--ink);
+  background-color: var(--paper);
+  display: grid;
+  min-height: 100vh;
+  max-width: 2000px;
+
+  /* Mobile layouts (extra small and small): everything stacked in one column */
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto auto auto auto;
+  grid-template-areas:
+    "sideNav"
+    "header"
+    "article"
+    "sideBoxes"
+    "footer";
+}
+
+/* side navigation (table of contents) */
+div#sideNav {
+  margin: 0;
+  display: flex;
+  background-color: var(--orange);
+  position: sticky;
+  top: 0;
+  grid-area: sideNav;
+  text-align: left;
+  align-items: center;
+
+  /* Mobile: horizontal bar */
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.6rem;
+  padding: 0.8rem var(--gutter);
+}
+
+#sideNav h2 { /* Table of Contents */
+  font-size: var(--fs-toc);
+  text-align: left;
+}
+
+#sideNav ul {
+  font-size: var(--fs-nav);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.6rem;
+}
+
+#sideNav li {
+  list-style: none;
+}
+
+#sideNav a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+/* ADD REST OF LINK PSUEDO CLASSES */
+#sideNav a:hover,
+#sideNav a:focus-visible {
+  color: white;
+}
+
+/* header area */
+div#header {
+  overflow: hidden;
+  container-type: inline-size;
+  grid-area: header;
+  position: relative;
+  height: var(--header-h);
+}
+
+#header div#orangeNews { /* the "Orange News" tag */
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  background-color: var(--orange);
+  font-size: var(--fs-label);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding: 0.5rem;
+  color: white;
+}
+
+#header img#heroImage {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The headline is split across the header and the article */
+#header #headline1 { /* Understanding the Rising */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  color: var(--paper);
+  text-shadow:
+    -2px -2px 0 var(--ink),
+     2px -2px 0 var(--ink),
+    -2px  2px 0 var(--ink),
+     2px  2px 0 var(--ink);
+  margin: 0.3rem var(--gutter);
+  white-space: nowrap;
+  font-size: var(--fs-headline);
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#article #headline2 { /* Costs of Orange Juice */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  margin: 0 var(--gutter);
+  white-space: nowrap;
+  font-size: var(--fs-headline);
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+/* article area */
+div#article {
+  container-type: inline-size;
+  grid-area: article;
+  position: relative;
+  /* top padding leaves room for the absolutely positioned headline2 */
+  padding: calc(var(--fs-headline) * 1.5) var(--gutter) var(--gutter);
+}
+
+#article p {
+  text-indent: 1.5em;
+  margin-top: 0;
+  margin-bottom: 1em;
+  font-size: var(--fs-body);
+  line-height: 1.7;
+}
+
+#article hr {
+  margin-bottom: 0.3rem;
+}
+
+#article .byline {
+  padding-top: 0.5rem;
+  border-top: 1px solid #999;
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  font-size: var(--fs-byline);
+}
+
+/* side boxes */
+#sideBoxes {
+  grid-area: sideBoxes;
+  min-width: 0;
+  padding: 0 var(--gutter);
+}
+
+/* footer */
+footer {
+  grid-area: footer;
+  background-color: var(--gray);
+  align-content: center;
+  text-align: center;
+  font-size: var(--fs-label);
+  min-height: 4rem;
+}
+
+
+/*
+   Mobile layouts (extra small and small):
+     Single column: nav > header > article > side boxes > footer
+     Nav is a horizontal bar.
+
+   Desktop layouts (medium and large and extra large):
+     Three columns: nav | article | side boxes
+     "sideNav   header  header"
+     "sideNav   article sideBoxes"
+     "sideNav   footer  footer"
+     Nav is a vertical column.
+*/
+
+
+/* ---------- Extra small: under 480px (the defaults above) ---------- */
+
+
+/* ---------- Small: 480px - 767px (still single column) ---------- */
+@media (min-width: 480px) {
+  :root {
+    --fs-body: 1.7rem;
+    --fs-toc: 1.9rem;
+    --fs-nav: 1.5rem;
+    --fs-label: 1.3rem;
+    --fs-byline: 1.5rem;
+    --fs-headline: 3.4rem;
+    --gutter: 2rem;
+    --header-h: 24rem;
+  }
+}
+
+
+/* ---------- Medium: 768px - 1023px (three columns begin) ---------- */
+@media (min-width: 768px) {
+  :root {
+    --fs-body: 1.7rem;
+    --fs-toc: 2rem;
+    --fs-nav: 1.6rem;
+    --fs-label: 1.4rem;
+    --fs-byline: 1.5rem;
+    --fs-headline: 2.8rem;
+    --gutter: 2.4rem;
+    --header-h: 28rem;
+    --nav-w: 17rem;
+    --side-w: 16rem;
+  }
+
+  body {
+    grid-template-columns: var(--nav-w) minmax(0, 1fr) var(--side-w);
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "sideNav header  header"
+      "sideNav article sideBoxes"
+      "sideNav footer  footer";
+  }
+
+  /* vertical side navigation, stays in view while scrolling */
+  div#sideNav {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: start;
+    height: 100vh;
+    overflow-y: auto;
+    gap: 1.2rem;
+    padding: 2rem var(--gutter);
+  }
+
+  #sideNav ul {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 1rem;
+  }
+}
+
+
+/* ---------- Large: 1024px - 1439px ---------- */
+@media (min-width: 1024px) {
+  :root {
+    --fs-body: 1.8rem;
+    --fs-toc: 2.2rem;
+    --fs-nav: 1.8rem;
+    --fs-label: 1.4rem;
+    --fs-byline: 1.6rem;
+    --fs-headline: 3.8rem;
+    --gutter: 3.2rem;
+    --header-h: 32rem;
+    --nav-w: 20rem;
+    --side-w: 24rem;
+  }
+}
+
+
+/* ---------- Extra large: 1440px and up ---------- */
+@media (min-width: 1440px) {
+  :root {
+    --fs-body: 2rem;
+    --fs-toc: 2.4rem;
+    --fs-nav: 2rem;
+    --fs-label: 1.6rem;
+    --fs-byline: 1.8rem;
+    --fs-headline: 4.8rem;
+    --gutter: 4rem;
+    --header-h: 38rem;
+    --nav-w: 24rem;
+    --side-w: 28rem;
+  }
+}
