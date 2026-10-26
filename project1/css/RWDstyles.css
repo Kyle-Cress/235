@@ -324,13 +324,8 @@ footer {
   }
 
   #sideNav {
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
     align-self: start;
     height: 100vh;
-    padding: var(--gutter);
-    gap: 1rem;
   }
 }
 
