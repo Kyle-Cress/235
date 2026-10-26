@@ -170,3 +170,182 @@ footer {
      Three columns: nav | article | side boxes
 */
 
+
+/* article padding so the second half of the headline has room */
+#article {
+  padding: calc(var(--fs-headline) * 1.5) var(--gutter) 0;
+}
+
+/* extra small mobile (360px - 479px wide, most phones in portrait) */
+@media (max-width: 479px) {
+  :root {
+    --gutter: 1.6rem;
+    --fs-body: 1.6rem;
+    --fs-toc: 1.8rem;
+    --fs-nav: 1.5rem;
+    --fs-label: 1.3rem;
+    --fs-headline: 2rem;
+    --fs-byline: 1.4rem;
+  }
+}
+
+/* small mobile (480px - 767px wide, large phones and landscape phones) */
+@media (min-width: 480px) and (max-width: 767px) {
+  :root {
+    --gutter: 2.4rem;
+    --fs-body: 1.7rem;
+    --fs-toc: 2rem;
+    --fs-nav: 1.6rem;
+    --fs-label: 1.4rem;
+    --fs-headline: 2.8rem;
+    --fs-byline: 1.5rem;
+  }
+}
+
+/* mobile grid: nav > header > article > side boxes > footer */
+@media (max-width: 767px) {
+  :root {
+    --header-h: 30vh;
+  }
+
+  body {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto var(--header-h) auto auto auto;
+    grid-template-areas:
+      "sideNav"
+      "header"
+      "article"
+      "sideBoxes"
+      "footer";
+  }
+
+  #sideNav {
+    padding: 1rem var(--gutter);
+    gap: var(--gutter);
+  }
+}
+
+/* mobile tall screens (9:19.5 and 9:20 phones) */
+@media (max-width: 767px) and (max-aspect-ratio: 9/18) {
+  :root {
+    --header-h: 34vh;
+  }
+}
+
+/* mobile standard screens (9:16 and 3:4 phones and small tablets) */
+@media (max-width: 767px) and (min-aspect-ratio: 9/16) and (max-aspect-ratio: 1/1) {
+  :root {
+    --header-h: 28vh;
+  }
+}
+
+/* mobile landscape (phones turned sideways) */
+@media (max-width: 767px) and (min-aspect-ratio: 1/1) {
+  :root {
+    --header-h: 60vh;
+  }
+}
+
+/* medium desktop (768px - 1199px wide, tablets and small laptops) */
+@media (min-width: 768px) and (max-width: 1199px) {
+  :root {
+    --gutter: 2rem;
+    --fs-body: 1.7rem;
+    --fs-toc: 1.8rem;
+    --fs-nav: 1.5rem;
+    --fs-label: 1.4rem;
+    --fs-headline: 2.8rem;
+    --fs-byline: 1.5rem;
+  }
+
+  body {
+    grid-template-columns: 22% 1fr 14%;
+  }
+}
+
+/* large desktop (1200px - 1919px wide, 1280x800, 1366x768, 1440x900) */
+@media (min-width: 1200px) and (max-width: 1919px) {
+  :root {
+    --gutter: 3.2rem;
+    --fs-body: 1.8rem;
+    --fs-toc: 2rem;
+    --fs-nav: 1.7rem;
+    --fs-label: 1.5rem;
+    --fs-headline: 4.2rem;
+    --fs-byline: 1.6rem;
+  }
+
+  body {
+    grid-template-columns: 20% 1fr 20%;
+  }
+}
+
+/* extra large desktop (1920px and wider, 1920x1080, 2560x1440) */
+@media (min-width: 1920px) {
+  :root {
+    --gutter: 4.8rem;
+    --fs-body: 2.2rem;
+    --fs-toc: 2.6rem;
+    --fs-nav: 2rem;
+    --fs-label: 1.8rem;
+    --fs-headline: 6.4rem;
+    --fs-byline: 1.8rem;
+  }
+
+  body {
+    grid-template-columns: 20% 1fr 20%;
+  }
+}
+
+/* desktop grid: nav | header and article | side boxes, footer across the bottom */
+@media (min-width: 768px) {
+  :root {
+    --header-h: 34vh;
+  }
+
+  body {
+    grid-template-rows: var(--header-h) 1fr auto;
+    grid-template-areas:
+      "sideNav header sideBoxes"
+      "sideNav article sideBoxes"
+      "footer footer footer";
+  }
+
+  #sideNav {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    align-self: start;
+    height: 100vh;
+    padding: var(--gutter);
+    gap: 1rem;
+  }
+}
+
+/* desktop 4:3 and portrait screens (1024x768, tablets) */
+@media (min-width: 768px) and (max-aspect-ratio: 4/3) {
+  :root {
+    --header-h: 26vh;
+  }
+}
+
+/* desktop 16:10 screens (1280x800, 1440x900, 1920x1200) */
+@media (min-width: 768px) and (min-aspect-ratio: 8/5) {
+  :root {
+    --header-h: 36vh;
+  }
+}
+
+/* desktop 16:9 screens (1366x768, 1920x1080, 2560x1440) */
+@media (min-width: 768px) and (min-aspect-ratio: 16/9) {
+  :root {
+    --header-h: 42vh;
+  }
+}
+
+/* desktop ultrawide screens (21:9 monitors) */
+@media (min-width: 768px) and (min-aspect-ratio: 21/9) {
+  :root {
+    --header-h: 50vh;
+  }
+}
