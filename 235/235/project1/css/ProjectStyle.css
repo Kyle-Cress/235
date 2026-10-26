@@ -6,121 +6,88 @@
   --paper: #faf0e6;
 }
 
+/* Typed custom properties: their em/ch/vh values are turned into pixels once, on body,
+   so the sideNav and the Orange News tag can share the same numbers (desktop only). */
+@property --nav-f { syntax: '<length>'; inherits: true; initial-value: 16px; } /* nav text size (grows with height) */
+@property --nav-w { syntax: '<length>'; inherits: true; initial-value: 150px; } /* sideNav column width */
+@property --toc-h { syntax: '<length>'; inherits: true; initial-value: 20px; }  /* "Table of Contents" / "Orange News" size */
+
 html {
   scroll-behavior: smooth;
-  align-items: center;
-  justify-items: center;
   background-color: var(--gray);
-  font-size: 62.5%;
+  font-size: 62.5%; /* 1rem = 10px */
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* body types for different screen sizes */
+/* body: text size scales with the viewport width (15px at 480px wide, up to 20px at ~2000px).
+   Columns are sized in em/ch, so they follow the text size. */
 body {
   container-type: inline-size;
-  font-family:Georgia, 'Times New Roman', Times, serif;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: clamp(1.5rem, 1.35rem + 0.3125vw, 2rem);
   color: var(--ink);
   background-color: var(--paper);
   display: grid;
   min-height: 100vh;
+  width: 100%;          /* container-type: inline-size makes body's natural width 0, so set it explicitly */
   max-width: 2000px;
+  margin-inline: auto;  /* centers the page on screens wider than 2000px */
+
+  --gutter: clamp(1.2rem, 2.4vw, 4rem); /* left/right spacing for article and headlines */
+  --headline: 1.4em;                    /* headline size (bigger on desktop below) */
+
+  /* Mobile layout (default): everything stacked in one column */
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto auto auto auto;
+  grid-template-areas:
+    "sideNav"
+    "header"
+    "article"
+    "sideBoxes"
+    "footer";
 }
 
-/* hello */
-
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
-  body{
-    grid-template-columns: minmax(15ch, 30cqi) minmax(40ch, 70ch) minmax(10cqi, 20ch);
-    grid-template-rows: 80vh auto 15vh;
-    grid-template-areas:
-    "sideNav header  header"
-    "sideNav article sideBoxes"
-    "sideNav footer  footer";
-  }
-}
-
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) {
-  body{
-    grid-template-columns: minmax(15ch, 30cqi) minmax(40ch, 70ch) minmax(10cqi, 20ch);
-    grid-template-rows: 80vh auto 15vh;
-    grid-template-areas:
-    "sideNav header  header"
-    "sideNav article sideBoxes"
-    "sideNav footer  footer";
-  }
-}
-
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
-  body{
-    grid-template-columns: minmax(15ch, 30cqi) minmax(40ch, 70ch) minmax(10cqi, 20ch);
-    grid-template-rows: 80vh auto 15vh;
-    grid-template-areas:
-    "sideNav header  header"
-    "sideNav article sideBoxes"
-    "sideNav footer  footer";
-  }
-}
-
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
-  body{
-    grid-template-columns: minmax(15ch, 30cqi) minmax(40ch, 70ch) minmax(10cqi, 20ch);
-    grid-template-rows: 80vh auto 15vh;
-    grid-template-areas:
-    "sideNav header  header"
-    "sideNav article sideBoxes"
-    "sideNav footer  footer";
-  }
-}
-
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
-  body{
-    grid-template-columns: minmax(15ch, 30cqi) minmax(40ch, 70ch) minmax(10cqi, 20ch);
-    grid-template-rows: 80vh auto 15vh;
-    grid-template-areas:
-    "sideNav header  header"
-    "sideNav article sideBoxes"
-    "sideNav footer  footer";
-  }
-}
-
-  
 /*side navigation section*/
+/* Mobile: horizontal bar across the top */
 div#sideNav {
   margin: 0;
-  padding-top: 1rem;
+  padding: 0.8em var(--gutter);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em 1.5em;
   background-color: var(--orange);
   position: sticky;
   top: 0;
-  height:100vh;
+  z-index: 10;          /* keeps the nav above the header and article while scrolling */
   grid-area: sideNav;
-  text-align: left;
-  align-items: center;
-  overflow-y: auto;
+  text-align: center;
 }
 
-#sideNav h2 { /* Table of Contents */
-  text-align: left;
-  margin-bottom: 2rem;
-  width: 80%;
+#sideNav h2 { /* Table of Contents (hidden on mobile, shown on desktop) */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 #sideNav ul {
-  width: 80%;
-  font-size: 1.3rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4em 1.5em;
+  font-size: 0.9em;
 }
 
 #sideNav li {
   list-style: none;
-  margin-top: 0;
-  margin-bottom: 2rem;
+  margin: 0;
   border-bottom: 1px solid var(--ink);
 }
 
@@ -145,15 +112,18 @@ div#header {
   container-type: inline-size;
   grid-area: header;
   position: relative;
+  z-index: 2;        /* header text and tag stay above the article */
+  height: 40vh;      /* mobile height; desktop height comes from the grid row */
+  min-height: 16em;
 }
 
-#header div#orangeNews{ /*The part that sticks out of the side nav bar and says "Orange News" */
+#header div#orangeNews { /*The part that sticks out of the side nav bar and says "Orange News" */
   z-index: 1;
   position: absolute;
   top: 0;
   background-color: var(--orange);
 
-  font-size: 1.6rem;
+  font-size: 0.9em;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   padding: 0.5rem;
   color: white;
@@ -169,20 +139,22 @@ div#header {
 /* article area */
 div#article {
   container-type: inline-size;
+  grid-area: article;
   position: relative;
-  padding-left: 2.4vw;
-  padding-right: 2rem;
-  padding-bottom: 2.5rem;
-  padding-top: 4rem;
+  z-index: 1;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+  padding-bottom: 2.5em;
+  padding-top: calc(var(--headline) * 1.6); /* leaves room for headline2 */
 }
 
 #article p {
-  text-indent: 1.5rem;
+  text-indent: 1.5em;
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 1em;
   text-align: justify;
-  font-size: 1.2rem;
-  line-height: 2rem;
+  font-size: 1em;
+  line-height: 1.7;
 }
 
 #article hr {
@@ -192,8 +164,15 @@ div#article {
 #article .byline {
   padding-top: 0.5rem;
   border-top: 1px solid #999;
-  font: 700 .8rem Arial, sans-serif;
+  font: 700 0.85em Arial, sans-serif;
   margin-bottom: 5rem;
+}
+
+/* side boxes */
+#sideBoxes {
+  grid-area: sideBoxes;
+  min-width: 0;
+  padding: 0 var(--gutter);
 }
 
 /* headline across header and article section */
@@ -208,11 +187,12 @@ div#article {
      2px -2px 0 var(--ink),
     -2px  2px 0 var(--ink),
      2px  2px 0 var(--ink);
-  
-  margin: 0.3rem 2.4vw;
+
+  margin: 0.3rem var(--gutter);
   white-space: nowrap;
 
-  font-size: 3rem;
+  font-size: var(--headline);
+  line-height: 1.15;
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
@@ -221,10 +201,11 @@ div#article {
   top: 0;
   left: 0;
   z-index: 1;
-  margin: 0 2.4vw;
+  margin: 0 var(--gutter);
   white-space: nowrap;
 
-  font-size: 3rem;
+  font-size: var(--headline);
+  line-height: 1.15;
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
@@ -234,4 +215,121 @@ footer {
   background-color: var(--gray);
   align-content: center;
   text-align: center;
+  font-size: 1em;     /* same as the article text (#article p) */
+  padding: 1em 0;
+}
+
+/* Mobile: the sticky nav bar covers the top of the page, so anchor links
+   (#ExtremeWeather etc.) would land underneath it. scroll-padding-top tells the
+   browser to stop that far below the top. The nav wraps onto more lines on
+   narrower screens, so the padding steps up to match. */
+@media (max-width: 767px) {
+  html { scroll-padding-top: 5.5rem; }  /* nav on 1 line */
+}
+@media (max-width: 599px) {
+  html { scroll-padding-top: 8rem; }    /* nav on 2 lines */
+}
+@media (max-width: 419px) {
+  html { scroll-padding-top: 10.5rem; } /* nav on 3 lines */
+}
+
+/* Desktop layout (768px and up).
+   This block is at the END of the file so it overrides the mobile rules above.
+   The sideNav's width is based on text size and it never takes extra space.
+   Extra width goes to the article (3 parts) and sideBoxes (1 part). */
+@media (min-width: 768px) {
+  body {
+    --headline: 2.1em;
+
+    /* sideNav is 14em when there is room, but shrinks (down to 9.5em) as soon as the
+       article and sideBoxes would get less than 54ch / 14em. Only after that do the
+       article and sideBoxes start shrinking, down to their minimums. */
+    --nav-w: clamp(9.5em, calc(100vw - 54ch - 14em), 14em);
+
+    /* nav text: normal size on short screens, up to 1.35x on tall ones */
+    --nav-f: clamp(1em, 2.2vh, 1.35em);
+
+    /* title size: 1.5x the nav text, but never wider than the column can hold,
+       so "Contents:" can't clip out of a narrow sideNav */
+    --toc-h: min(calc(1.5 * var(--nav-f)), calc(0.14 * var(--nav-w)));
+
+    grid-template-columns: var(--nav-w) minmax(30ch, 3fr) minmax(10em, 1fr);
+    grid-template-rows: 80vh auto 15vh;
+    grid-template-areas:
+      "sideNav header  header"
+      "sideNav article sideBoxes"
+      "sideNav footer  footer";
+  }
+
+  /* vertical side navigation (same as the original layout) */
+  div#sideNav {
+    /* On tall screens the text and the spacing grow with the viewport HEIGHT so the
+       title + links fill roughly the top third of the column instead of leaving dead space.
+       Text grows from the normal size up to 1.35x; spacing is 4vh (never less than the original 2rem). */
+    font-size: var(--nav-f);
+    padding: max(1rem, 2vh) 0 0;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    text-align: left;
+  }
+
+  #sideNav h2 { /* Table of Contents */
+    position: static;
+    width: 80%;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+    font-size: var(--toc-h);
+    text-align: left;
+    margin-bottom: max(2rem, 4vh);
+  }
+
+  #sideNav ul {
+    width: 80%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 0;
+    /* 0.9x the nav text, but capped so the longest word ("Introduction") fits the column */
+    font-size: min(calc(0.9 * var(--nav-f)), calc(0.125 * var(--nav-w)));
+  }
+
+  #sideNav li {
+    list-style: none;
+    margin-top: 0;
+    margin-bottom: max(2rem, 4vh);
+    border-bottom: 1px solid var(--ink);
+  }
+
+  #sideNav a {
+    overflow-wrap: anywhere; /* long link text wraps instead of overflowing a narrow column */
+  }
+
+  /* "Orange News" tag uses the exact same size as the Table of Contents title */
+  #header div#orangeNews h2 {
+    font-size: var(--toc-h);
+  }
+
+  /* header fills its grid row */
+  div#header {
+    height: auto;
+    min-height: 0;
+  }
+}
+
+/* Headlines keep growing on larger screens. The article's top padding is
+   calculated from --headline, so the gap under "Costs of Orange Juice" grows with it. */
+@media (min-width: 1024px) {
+  body { --headline: 2.4em; }
+}
+
+@media (min-width: 1440px) {
+  body { --headline: 2.9em; }
 }
