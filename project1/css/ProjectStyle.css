@@ -51,23 +51,30 @@ div#sideNav {
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 0.4em 1.5em;
   background-color: var(--orange);
   position: sticky;
   top: 0;
+  z-index: 10;          /* keeps the nav above the header and article while scrolling */
   grid-area: sideNav;
-  text-align: left;
+  text-align: center;
 }
 
-#sideNav h2 { /* Table of Contents */
-  font-size: 1.15em;
-  text-align: left;
+#sideNav h2 { /* Table of Contents (hidden on mobile, shown on desktop) */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 #sideNav ul {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 0.4em 1.5em;
   font-size: 0.9em;
 }
@@ -99,6 +106,7 @@ div#header {
   container-type: inline-size;
   grid-area: header;
   position: relative;
+  z-index: 2;        /* header text and tag stay above the article */
   height: 40vh;      /* mobile height; desktop height comes from the grid row */
   min-height: 16em;
 }
@@ -127,6 +135,7 @@ div#article {
   container-type: inline-size;
   grid-area: article;
   position: relative;
+  z-index: 1;
   padding-left: var(--gutter);
   padding-right: var(--gutter);
   padding-bottom: 2.5em;
@@ -204,12 +213,15 @@ footer {
 
 /* Desktop layout (768px and up).
    This block is at the END of the file so it overrides the mobile rules above.
-   sideNav is a fixed width based on text size and never takes extra space.
+   The sideNav's width is based on text size and it never takes extra space.
    Extra width goes to the article (3 parts) and sideBoxes (1 part). */
 @media (min-width: 768px) {
   body {
     --headline: 1.6em;
-    grid-template-columns: 14em minmax(36ch, 3fr) minmax(12em, 1fr);
+    /* sideNav is 14em when there is room, but shrinks (down to 8em) as soon as the
+       article and sideBoxes would get less than 54ch / 14em. Only after that do the
+       article and sideBoxes start shrinking, down to their minimums. */
+    grid-template-columns: clamp(8em, calc(100vw - 54ch - 14em), 14em) minmax(30ch, 3fr) minmax(10em, 1fr);
     grid-template-rows: 80vh auto 15vh;
     grid-template-areas:
       "sideNav header  header"
@@ -223,22 +235,30 @@ footer {
     flex-direction: column;
     flex-wrap: nowrap;
     align-items: center;
+    justify-content: flex-start;
     gap: 0;
     height: 100vh;
     overflow-y: auto;
+    text-align: left;
   }
 
   #sideNav h2 { /* Table of Contents */
+    position: static;
+    width: 80%;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
     font-size: 1.5em;
     text-align: left;
     margin-bottom: 2rem;
-    width: 80%;
   }
 
   #sideNav ul {
     width: 80%;
     flex-direction: column;
     flex-wrap: nowrap;
+    justify-content: flex-start;
     gap: 0;
     font-size: 0.9em;
   }
