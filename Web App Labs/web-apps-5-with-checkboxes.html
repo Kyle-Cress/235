@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Web Apps-5</title>
+	<style>
+		body{
+			font-family:sans-serif;
+		}
+		#colorform{
+			background-color:#dfecdf;
+			color: #111;
+			padding:1em;width:400px;
+		}
+		#colorform p#info{
+			background-color:white;
+			color: black;
+			width:300px;
+			height:100px;
+			padding:.5em;
+		}
+		
+		#colorform legend{ 
+			font-weight:bold;
+			font-size:1.2em;
+		}
+	</style>
+</head>
+<body>
+
+<div id="colorform">
+	<legend>Choose your favorite color!</legend>
+	<p><input type="checkbox" name="colorGroup" id="colorGroupRed" value="red" /> Red</p>
+	<p><input type="checkbox" name="colorGroup" id="colorGroupGreen" value="green" /> Green</p>
+	<p><input type="checkbox" name="colorGroup" id="colorGroupBlue" value="blue" /> Blue</p>
+	<p><button id="colorButton" type="button">Submit</button></p>
+	<p id="info"></p>
+</div>
+
+<script>
+/* Write your code here! */
+    let radioButtons = document.querySelectorAll("input");
+
+    for (let i = 0; i < radioButtons.length; i++){
+        radioButtons[i].addEventListener("change", () => ChangeText("You have selected "))
+    }
+
+    let submitBtn = document.querySelector("button");
+    submitBtn.addEventListener("click", () => ChangeText("Your FINAL CHOICE IS "))
+
+    let infoBox = document.getElementById("info");
+	let legend = document.querySelector("legend");
+
+	function ChangeText(sentenceStructure){
+		let checked = document.querySelectorAll("input:checked");
+		let values = Array.from(checked).map(input => input.value);
+		
+		let text = sentenceStructure + values.join(" and ") + "!";
+
+		if (values.length == 0){
+			text = "";
+		}
+
+		infoBox.innerHTML = text;
+	}
+
+</script>
+</body>
+</html>

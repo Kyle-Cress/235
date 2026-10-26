@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Web Apps-4-HW</title>
+	<style>
+		body{border:1px solid gray;}
+	</style>
+</head>
+<body>
+<h1>My Favorites</h1>
+<h2>My Favorite Colors</h2>
+
+<ol id="colorsList">
+	
+</ol>
+
+<h2>My Favorite Foods</h2>
+
+<ol id="foodsList">
+	
+</ol>
+
+<h2>My Favorite Links</h2>
+
+<ol id="linksList">
+	
+</ol>
+
+<script>
+    "use strict";
+    let colors = ["red","green","blue","purple","pink"];
+    let foods = ["tacos", "pizza", "burgers", "pasta"]; // add some foods
+
+    let links = {
+            "RIT": "http://www.rit.edu",
+            "RWAG" : "https://www.facebook.com/RWAGclub",
+            "New Media Club" : "http://newmediaclub.cias.rit.edu"
+        }
+
+
+    //arrow function version
+
+    const arrowCreateList = (listElement, array) =>      {   
+            for(let i = 0;i < array.length; i++){
+            let newLi = document.createElement("li");
+            newLi.innerHTML = array[i];
+            listElement.append(newLi);
+        }
+    }
+
+    let colorsList = document.getElementById("colorsList");
+
+    createList(colorsList, colors);
+
+
+    let foodsList = document.getElementById("foodsList");
+
+    arrowCreateList(foodsList, foods)
+
+    let linksList = document.getElementById("linksList");
+
+    for(let [key, value] of Object.entries(links)){
+        let newLi = document.createElement("li");
+        newLi.innerHTML = "<a href='" + value + "'>" + key + "</a>";
+        linksList.append(newLi);
+    }
+
+    // regular schmegular version
+    function createList(listElement, array = ["puppydogs", "butterflies", "lollipops"]){
+        for(let i = 0;i < array.length; i++){
+            let newLi = document.createElement("li");
+            newLi.innerHTML = array[i];
+            listElement.append(newLi);
+        }
+    }
+</script>
+</body>
+</html>
