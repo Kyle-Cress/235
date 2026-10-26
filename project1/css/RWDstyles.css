@@ -9,6 +9,7 @@
 /* The size and spacing sizes below (--fs-*, --gutter) are in the media queries so that the text scales correctly*/
 html {
   scroll-behavior: smooth;
+  display: block;
   align-items: center;
   justify-items: center;
   background-color: var(--gray);
@@ -25,6 +26,7 @@ body {
   background-color: var(--paper);
   display: grid;
   min-height: 100vh;
+  width: 100%;
   max-width: 2000px;
 }
 
@@ -209,7 +211,7 @@ footer {
   }
 
   body {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto var(--header-h) auto auto auto;
     grid-template-areas:
       "sideNav"
@@ -220,8 +222,18 @@ footer {
   }
 
   #sideNav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
     padding: 1rem var(--gutter);
-    gap: var(--gutter);
+    gap: 0.5rem var(--gutter);
+  }
+
+  #sideNav ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem var(--gutter);
   }
 }
 
@@ -259,7 +271,7 @@ footer {
   }
 
   body {
-    grid-template-columns: 22% 1fr 14%;
+    grid-template-columns: 22% minmax(0, 1fr) 14%;
   }
 }
 
@@ -276,7 +288,7 @@ footer {
   }
 
   body {
-    grid-template-columns: 20% 1fr 20%;
+    grid-template-columns: 20% minmax(0, 1fr) 20%;
   }
 }
 
@@ -293,7 +305,7 @@ footer {
   }
 
   body {
-    grid-template-columns: 20% 1fr 20%;
+    grid-template-columns: 20% minmax(0, 1fr) 20%;
   }
 }
 
