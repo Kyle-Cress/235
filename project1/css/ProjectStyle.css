@@ -234,10 +234,10 @@ footer {
 @media (min-width: 768px) {
   body {
     --headline: 2.1em;
-    /* sideNav is 14em when there is room, but shrinks (down to 8em) as soon as the
+    /* sideNav is 14em when there is room, but shrinks (down to 9.5em) as soon as the
        article and sideBoxes would get less than 54ch / 14em. Only after that do the
        article and sideBoxes start shrinking, down to their minimums. */
-    grid-template-columns: clamp(8em, calc(100vw - 54ch - 14em), 14em) minmax(30ch, 3fr) minmax(10em, 1fr);
+    grid-template-columns: clamp(9.5em, calc(100vw - 54ch - 14em), 14em) minmax(30ch, 3fr) minmax(10em, 1fr);
     grid-template-rows: 80vh auto 15vh;
     grid-template-areas:
       "sideNav header  header"
@@ -247,7 +247,11 @@ footer {
 
   /* vertical side navigation (same as the original layout) */
   div#sideNav {
-    padding: 1rem 0 0;
+    /* On tall screens the text and the spacing grow with the viewport HEIGHT so the
+       title + links fill roughly the top third of the column instead of leaving dead space.
+       Text grows from the normal size up to 1.35x; spacing is 4vh (never less than the original 2rem). */
+    font-size: clamp(1em, 2.2vh, 1.35em);
+    padding: max(1rem, 2vh) 0 0;
     flex-direction: column;
     flex-wrap: nowrap;
     align-items: center;
@@ -255,6 +259,7 @@ footer {
     gap: 0;
     height: 100vh;
     overflow-y: auto;
+    overflow-x: hidden;
     text-align: left;
   }
 
@@ -267,7 +272,7 @@ footer {
     white-space: normal;
     font-size: 1.5em;
     text-align: left;
-    margin-bottom: 2rem;
+    margin-bottom: max(2rem, 4vh);
   }
 
   #sideNav ul {
@@ -282,8 +287,12 @@ footer {
   #sideNav li {
     list-style: none;
     margin-top: 0;
-    margin-bottom: 2rem;
+    margin-bottom: max(2rem, 4vh);
     border-bottom: 1px solid var(--ink);
+  }
+
+  #sideNav a {
+    overflow-wrap: anywhere; /* long link text wraps instead of overflowing a narrow column */
   }
 
   /* header fills its grid row */
