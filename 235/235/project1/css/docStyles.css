@@ -1,0 +1,7 @@
+body {
+	margin-left: 10rem;
+}
+
+.layoutImage {
+	transform: rotate(-90deg);
+}

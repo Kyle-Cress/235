@@ -1,0 +1,46 @@
+/* Do everything in this file */
+
+header,main,footer {
+  padding: 0 10em;
+}
+
+h2,h3,h4,h5,h6 {
+  border-bottom: 1px solid red;
+}
+
+h2 {
+ clear: both;
+}
+
+figure {
+  float: right;
+  width: 40%;
+  margin-left: 5em;
+}
+
+figure img {
+  width: 100%;
+  object-fit: cover;
+}
+
+section#tetlist div.tet {
+  float: left;
+  width: 30%;
+  border: 1px solid black;
+}
+
+section#tetlist div.tet img{
+  width: 100%;
+  object-fit: cover;
+}
+
+section#tetlist div.aliases {
+  width: 100%;
+}
+
+footer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: -9999;
+}
