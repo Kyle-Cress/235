@@ -186,6 +186,7 @@ div#article {
   white-space: nowrap;
 
   font-size: var(--headline);
+  line-height: 1.15;
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
@@ -198,6 +199,7 @@ div#article {
   white-space: nowrap;
 
   font-size: var(--headline);
+  line-height: 1.15;
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
@@ -231,7 +233,7 @@ footer {
    Extra width goes to the article (3 parts) and sideBoxes (1 part). */
 @media (min-width: 768px) {
   body {
-    --headline: 1.6em;
+    --headline: 2.1em;
     /* sideNav is 14em when there is room, but shrinks (down to 8em) as soon as the
        article and sideBoxes would get less than 54ch / 14em. Only after that do the
        article and sideBoxes start shrinking, down to their minimums. */
@@ -289,4 +291,14 @@ footer {
     height: auto;
     min-height: 0;
   }
+}
+
+/* Headlines keep growing on larger screens. The article's top padding is
+   calculated from --headline, so the gap under "Costs of Orange Juice" grows with it. */
+@media (min-width: 1024px) {
+  body { --headline: 2.4em; }
+}
+
+@media (min-width: 1440px) {
+  body { --headline: 2.9em; }
 }
