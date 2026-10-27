@@ -27,7 +27,7 @@ body {
   background-color: var(--paper);
   display: grid;
   min-height: 100vh;
-  width: 100%;          /* container-type: inline-size makes body's natural width 0, so set it explicitly */
+  width: 100%;
   max-width: 2000px;
   min-width: 340px;
   margin-inline: auto;  /* centers the page on screens wider than 2000px */
